@@ -60,9 +60,9 @@ public:
 
 	/**
 	 * Adds a new move to the end
-	 * @param move
+	 * @param Move
 	 */
-	void addMove(const Move& move);
+	void addMove(const Move&);
 
 	/**
 	 * Returns string representation of the path including the total cost

@@ -37,10 +37,37 @@ const Move Move::LU(6);
 const Move Move::U(7);
 const Move Move::RU(8);
 
+/**
+ * Returns all possible moves
+ * @return
+ */
+vector<Move> Move::getAllMoves() {
+	vector<Move> moves;
+
+	moves.push_back(Move::R);
+	moves.push_back(Move::RD);
+	moves.push_back(Move::D);
+	moves.push_back(Move::LD);
+	moves.push_back(Move::L);
+	moves.push_back(Move::LU);
+	moves.push_back(Move::U);
+	moves.push_back(Move::RU);
+
+	return moves;
+}
+
+/**
+ * Returns integer value of move
+ * @return
+ */
 int Move::value() const {
 	 return value_;
 }
 
+/**
+ * Returns string representation of this move
+ * @return
+ */
 string Move::toString() const {
 	switch (value_) {
 		case 1:
@@ -63,3 +90,68 @@ string Move::toString() const {
 			throw new string("Invalid move");
 	}
 }
+
+/**
+ * Return reversed move
+ * @return
+ */
+Move Move::reverse() const {
+	if (*this == Move::R)
+		return Move::L;
+
+	if (*this == Move::RD)
+		return Move::LU;
+
+	if (*this == Move::D)
+		return Move::U;
+
+	if (*this == Move::LD)
+		return Move::RU;
+
+	if (*this == Move::L)
+		return Move::R;
+
+	if (*this == Move::LU)
+		return Move::RD;
+
+	if (*this == Move::U)
+		return Move::D;
+
+	if (*this == Move::RU)
+		return Move::LD;
+
+	throw new string("Invalid move");
+}
+
+/**
+ * Sets costs of the move
+ * @param cost
+ */
+void Move::setCost(int cost) {
+	cost_ = cost;
+}
+
+/**
+ * Returns the cost of this move
+ * @return
+ */
+int Move::getCost() const {
+	return cost_;
+}
+
+/**
+ * Checks if it is an initialized move or not
+ * @return
+ */
+bool Move::isNull() const {
+	return value_ == 0;
+}
+
+bool Move::operator ==(const Move& other) const {
+	return this->value_ == other.value_;
+}
+
+bool Move::operator <(const Move& other) const {
+	return this->value_ < other.value_;
+}
+

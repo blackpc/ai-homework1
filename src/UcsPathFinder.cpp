@@ -32,6 +32,13 @@
 UcsPathFinder::UcsPathFinder() {
 }
 
+/**
+ * Executes UCS search algorithm
+ * @param start Starting point
+ * @param goal Goal
+ * @param map Map
+ * @return Path
+ */
 Path UcsPathFinder::findPath(const Point& start, const Point& goal,
 		Map::Ptr map) const
 {

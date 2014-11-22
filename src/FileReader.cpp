@@ -28,6 +28,11 @@
 
 #include <homework1/FileReader.h>
 
+
+/**
+ * Reads the input file and parses all parameters
+ * @param filename
+ */
 FileReader::FileReader(const string& filename)
 	: mapSize_(0)
 {
@@ -64,22 +69,42 @@ FileReader::FileReader(const string& filename)
 
 }
 
+/**
+ * Returns the search algorithm name
+ * @return
+ */
 string FileReader::getAlgorithmName() const {
 	return algorithmName_;
 }
 
+/**
+ * Returns map widh and height
+ * @return
+ */
 size_t FileReader::getMapSize() const {
 	return mapSize_;
 }
 
+/**
+ * Returns the map
+ * @return
+ */
 Map::Ptr FileReader::getMap() const {
 	return map_;
 }
 
+/**
+ * The starting point
+ * @return
+ */
 Point FileReader::getStartPosition() {
 	return start_;
 }
 
+/**
+ * The finish point
+ * @return
+ */
 Point FileReader::getGoal() {
 	return goal_;
 }

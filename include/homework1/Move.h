@@ -87,20 +87,7 @@ public:
 	 * Returns all possible moves
 	 * @return
 	 */
-	static vector<Move> getAllMoves() {
-		vector<Move> moves;
-
-		moves.push_back(Move::R);
-		moves.push_back(Move::RD);
-		moves.push_back(Move::D);
-		moves.push_back(Move::LD);
-		moves.push_back(Move::L);
-		moves.push_back(Move::LU);
-		moves.push_back(Move::U);
-		moves.push_back(Move::RU);
-
-		return moves;
-	}
+	static vector<Move> getAllMoves();
 
 
 	Move() : value_(0), cost_(0) { }
@@ -125,61 +112,29 @@ public:
 	 * Sets costs of the move
 	 * @param cost
 	 */
-	void setCost(int cost) {
-		cost_ = cost;
-	}
+	void setCost(int cost);
 
 	/**
 	 * Returns the cost of this move
 	 * @return
 	 */
-	int getCost() const {
-		return cost_;
-	}
+	int getCost() const;
 
-	bool isNull() const {
-		return value_ == 0;
-	}
+	/**
+	 * Checks if it is an initialized move or not
+	 * @return
+	 */
+	bool isNull() const;
 
 	/**
 	 * Return reversed move
 	 * @return
 	 */
-	Move reverse() const {
-		if (*this == Move::R)
-			return Move::L;
+	Move reverse() const;
 
-		if (*this == Move::RD)
-			return Move::LU;
+	bool operator ==(const Move& other) const;
 
-		if (*this == Move::D)
-			return Move::U;
-
-		if (*this == Move::LD)
-			return Move::RU;
-
-		if (*this == Move::L)
-			return Move::R;
-
-		if (*this == Move::LU)
-			return Move::RD;
-
-		if (*this == Move::U)
-			return Move::D;
-
-		if (*this == Move::RU)
-			return Move::LD;
-
-		throw new string("Invalid move");
-	}
-
-	bool operator ==(const Move& other) const {
-		return this->value_ == other.value_;
-	}
-
-	bool operator <(const Move& other) const {
-		return this->value_ < other.value_;
-	}
+	bool operator <(const Move& other) const;
 
 private:
 

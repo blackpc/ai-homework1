@@ -32,6 +32,13 @@
 BfsPathFinder::BfsPathFinder() {
 }
 
+/**
+ * Executes BFS search algorithm
+ * @param start Starting point
+ * @param goal Goal
+ * @param map Map
+ * @return Path
+ */
 Path BfsPathFinder::findPath(const Point& start, const Point& goal,
 		const Map::Ptr map) const
 {

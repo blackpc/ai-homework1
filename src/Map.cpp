@@ -28,12 +28,23 @@
 
 #include <homework1/Map.h>
 
+/**
+ * Allocates necessary array for the map
+ * @param width
+ * @param height
+ */
 Map::Map(size_t width, size_t height) :
 	width_(width), height_(height)
 {
 	map_.resize(width_ * height_);
 }
 
+/**
+ * Returns value of specified cell
+ * @param x X coordinate
+ * @param y Y coordinate
+ * @return Cell value
+ */
 Map::CellType& Map::at(size_t x, size_t y) {
 	if (isInBounds(x, y))
 		return map_[y * width_ + x];
@@ -41,10 +52,12 @@ Map::CellType& Map::at(size_t x, size_t y) {
 	throw new string("Out of map coordinates");
 }
 
-Map::CellType& Map::at(const Point& point) {
-	return at(point.x, point.y);
-}
-
+/**
+ * Returns value of specified cell
+ * @param x X coordinate
+ * @param y Y coordinate
+ * @return Cell value
+ */
 const Map::CellType& Map::at(const size_t x, size_t y) const {
 	if (isInBounds(x, y))
 			return map_[y * width_ + x];
@@ -52,15 +65,39 @@ const Map::CellType& Map::at(const size_t x, size_t y) const {
 	throw new string("Out of map coordinates");
 }
 
+/**
+ * Returns value of specified cell
+ * @param point Point representing the coordinates
+ * @return
+ */
+Map::CellType& Map::at(const Point& point) {
+	return at(point.x, point.y);
+}
+
+/**
+ * Returns value of specified cell
+ * @param point Point representing the coordinates
+ * @return
+ */
 const Map::CellType& Map::at(const Point& point) const {
 	return at(point.x, point.y);
 }
 
+/**
+ * Verifies the coordinates are within the map's bounds
+ * @param x X coordinate
+ * @param y Y coordinate
+ * @return
+ */
 bool Map::isInBounds(size_t x, size_t y) const {
 	return (x >= 0 && x < width_) &&
 		   (y >= 0 && y < height_);
 }
 
+/**
+ * Converts map to string representation
+ * @return
+ */
 string Map::toString() const {
 	int widthCounter = 0;
 	stringstream output;
@@ -78,7 +115,13 @@ string Map::toString() const {
 	return output.str();
 }
 
-
+/**
+ * Applies specified move from specified position and returns the position and cell's value
+ * @param currentPose
+ * @param move
+ * @param resultPoint
+ * @return Whether the point within the map bounds
+ */
 bool Map::applyMove(const Point& currentPoint, const Move& move,
 		Point& resultPoint) const
 {
@@ -86,6 +129,14 @@ bool Map::applyMove(const Point& currentPoint, const Move& move,
 	return applyMove(currentPoint, move, cell, resultPoint);
 }
 
+/**
+ * Applies specified move from specified position and returns the position and cell's value
+ * @param currentPose
+ * @param move
+ * @param resultCell
+ * @param resultPoint
+ * @return Whether the point within the map bounds
+ */
 bool Map::applyMove(const Point& currentPoint, const Move& move,
 		CellType& resultCell, Point& resultPoint) const
 {
@@ -126,6 +177,12 @@ bool Map::applyMove(const Point& currentPoint, const Move& move,
 	return true;
 }
 
+/**
+ * Returns all available moves with costs from specified point
+ * @note The moves are sorted by the ordered described in the homework
+ * @param currentPoint
+ * @return
+ */
 vector<Move> Map::getAvailableMoves(const Point& currentPoint) const {
 	vector<Move> moves;
 	set<Move> blockedMoves;
@@ -171,6 +228,12 @@ vector<Move> Map::getAvailableMoves(const Point& currentPoint) const {
 	return moves;
 }
 
+/**
+ * Reconstructs the path after the goal is found
+ * @param start Starting point
+ * @param goal Goal
+ * @return Path
+ */
 Path Map::reconstructPath(const Point& start, const Point& goal) const {
 	Path path;
 	Point currentPoint = goal;

@@ -28,15 +28,26 @@
 
 #include <homework1/Path.h>
 
-
+/**
+ * Returns all moves
+ * @return
+ */
 vector<Move> Path::getMoves() const {
 	return moves_;
 }
 
+/**
+ * Adds a new move to the end
+ * @param move
+ */
 void Path::addMove(const Move& move) {
 	moves_.push_back(move);
 }
 
+/**
+ * Returns string representation of the path including the total cost
+ * @return
+ */
 string Path::toString() const {
 
 	if (moves_.size() == 0)
@@ -59,6 +70,10 @@ string Path::toString() const {
 	return output.str();
 }
 
+/**
+ * Returns reversed path
+ * @return
+ */
 Path Path::reverse() const {
 	Path reversedPath;
 

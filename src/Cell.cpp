@@ -46,6 +46,10 @@ Cell::Cell(const string& value) {
 		throw new string("Unknown cell type");
 }
 
+/**
+ * Returns string representation of cell
+ * @return
+ */
 string Cell::toString() const {
 	switch (value_) {
 		case 1:
@@ -62,10 +66,18 @@ string Cell::toString() const {
 	}
 }
 
+/**
+ * Returns integer value of cell
+ * @return
+ */
 uint8_t Cell::value() const {
 	return value_;
 }
 
+/**
+ * Returns the cost for traveling to this type of cell
+ * @return
+ */
 int Cell::getCost() const {
 	if (value_ == 1)
 		return 1;
@@ -79,6 +91,10 @@ int Cell::getCost() const {
 	return numeric_limits<int>::infinity();
 }
 
+/**
+ * True if cell is traversable
+ * @return
+ */
 bool Cell::isTraversable() const {
 
 	// Only Water (4) is not traversable
@@ -88,10 +104,18 @@ bool Cell::isTraversable() const {
 	return true;
 }
 
+/**
+ * Sets came from field
+ * @param move
+ */
 void Cell::setCameFrom(const Move& move) {
 	cameFrom_ = move;
 }
 
+/**
+ * Gets the came from field
+ * @return
+ */
 Move Cell::getCameFrom() const {
 	return cameFrom_;
 }

@@ -39,17 +39,6 @@
 using namespace std;
 
 
-void test() {
-	multiset<WeightedPoint> s;
-
-	s.insert(WeightedPoint(Point(0, 0), 1));
-	s.insert(WeightedPoint(Point(0, 1), 1));
-	s.insert(WeightedPoint(Point(0, 2), 1));
-
-	cout << s.size() << endl;
-}
-
-
 int main(int argc, char **argv) {
 
 	FileReader* reader;
@@ -58,9 +47,6 @@ int main(int argc, char **argv) {
 	} catch (...) {
 		cerr << "Failed to open intput.txt file" << endl;
 	}
-
-	std::ofstream fileWriter("output.txt");
-
 
 	IPathFinder* finder = NULL;
 
@@ -72,8 +58,11 @@ int main(int argc, char **argv) {
 
 	Path path = finder->findPath(reader->getStartPosition(), reader->getGoal(), reader->getMap());
 
-	cout << path.toString() << endl;
+	std::ofstream fileWriter("output.txt");
 	fileWriter << path.toString() << endl;
+	fileWriter.close();
+
+	cout << path.toString() << endl;
 
 	delete reader;
 	return 0;
