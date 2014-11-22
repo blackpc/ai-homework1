@@ -50,7 +50,7 @@ public:
 	 * @param map The map
 	 * @return The found Path
 	 */
-	virtual Path findPath(const Point& start, const Point& goal, Map::Ptr map) const = 0;
+	virtual Path findPath(const Point& start, const Point& goal, const Map::Ptr map) const = 0;
 
 
 };

@@ -30,7 +30,14 @@
 #define UCSPATHFINDER_H_
 
 
+#include <set>
+#include <map>
+
 #include <homework1/IPathFinder.h>
+#include <homework1/WeightedPoint.h>
+
+
+using namespace std;
 
 
 /*
@@ -44,7 +51,14 @@ public:
 
 public:
 
-	virtual Path findPath(const Point& start, const Point& goal, Map::Ptr map) const;
+	/**
+	 * Executes UCS search algorithm
+	 * @param start Starting point
+	 * @param goal Goal
+	 * @param map Map
+	 * @return Path
+	 */
+	virtual Path findPath(const Point& start, const Point& goal, const Map::Ptr map) const;
 
 };
 

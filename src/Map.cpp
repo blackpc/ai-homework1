@@ -171,3 +171,23 @@ vector<Move> Map::getAvailableMoves(const Point& currentPoint) const {
 	return moves;
 }
 
+Path Map::reconstructPath(const Point& start, const Point& goal) const {
+	Path path;
+	Point currentPoint = goal;
+
+	while (true) {
+
+		if (currentPoint == start)
+			break;
+
+		const Map::CellType& currentCell = this->at(currentPoint);
+		path.addMove(Move(currentCell.getCameFrom().reverse(), currentCell.getCost()));
+
+		Point parentPoint;
+		this->applyMove(currentPoint, currentCell.getCameFrom(), parentPoint);
+
+		currentPoint = parentPoint;
+	}
+
+	return path.reverse();
+}

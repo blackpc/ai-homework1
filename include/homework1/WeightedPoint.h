@@ -1,7 +1,7 @@
 /**
- * Filename: Move.cpp
+ * Filename: WeightedPoint.h
  *   Author: Igor Makhtes
- *     Date: Nov 21, 2014
+ *     Date: Nov 22, 2014
  *
  * The MIT License (MIT)
  *
@@ -26,40 +26,51 @@
  * THE SOFTWARE.
  */
 
-#include <homework1/Move.h>
+#ifndef WEIGHTEDPOINT_H_
+#define WEIGHTEDPOINT_H_
 
-const Move Move::R(1);
-const Move Move::RD(2);
-const Move Move::D(3);
-const Move Move::LD(4);
-const Move Move::L(5);
-const Move Move::LU(6);
-const Move Move::U(7);
-const Move Move::RU(8);
 
-int Move::value() const {
-	 return value_;
-}
+#include <homework1/Point.h>
 
-string Move::toString() const {
-	switch (value_) {
-		case 1:
-			return "R";
-		case 2:
-			return "RD";
-		case 3:
-			return "D";
-		case 4:
-			return "LD";
-		case 5:
-			return "L";
-		case 6:
-			return "LU";
-		case 7:
-			return "U";
-		case 8:
-			return "RU";
-		default:
-			throw new string("Invalid move");
+/**
+ * Represents a point with cost value
+ */
+class WeightedPoint : public Point {
+
+public:
+
+	WeightedPoint(const Point& point) : Point(point), cost_(0) { }
+	WeightedPoint(const Point& point, int cost) : Point(point), cost_(cost) { }
+
+	operator Point() {
+		return Point(Point::x, Point::y);
 	}
-}
+
+	bool operator <(const WeightedPoint& other) const {
+		return this->cost_ < other.cost_;
+	}
+
+	bool operator ==(const WeightedPoint& other) const {
+		return (Point)*this == (Point)other;
+	}
+
+public:
+
+	void setCost(int cost) {
+		cost_ = cost;
+	}
+
+	int getCost() const {
+		return cost_;
+	}
+
+private:
+
+	int cost_;
+
+
+};
+
+
+
+#endif /* WEIGHTEDPOINT_H_ */

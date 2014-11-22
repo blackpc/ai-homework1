@@ -27,26 +27,36 @@
  */
 
 
+#include <fstream>
+#include <string>
+#include <iostream>
+
 #include <homework1/FileReader.h>
 #include <homework1/BfsPathFinder.h>
 #include <homework1/UcsPathFinder.h>
 
 
-void testGetAvailableMoves(Map::Ptr map) {
-	Point p(1, 0);
-	vector<Move> moves = map->getAvailableMoves(p);
+using namespace std;
 
-	foreach(Move m, moves) {
-		cout << m.toString() << " ";
-	}
+
+void test() {
+	multiset<WeightedPoint> s;
+
+	s.insert(WeightedPoint(Point(0, 0), 1));
+	s.insert(WeightedPoint(Point(0, 1), 1));
+	s.insert(WeightedPoint(Point(0, 2), 1));
+
+	cout << s.size() << endl;
 }
+
 
 int main(int argc, char **argv) {
 
-	FileReader reader("/home/blackpc/Downloads/HW1/input.txt");
-	ofstream fileWriter("home/blackpc/Downloads/HW1/out.txt");
+	FileReader reader("/home/blackpc/Downloads/HW1/input2.txt");
+	std::ofstream fileWriter("/home/blackpc/Downloads/HW1/out.txt");
 
-	IPathFinder* finder;
+
+	IPathFinder* finder = NULL;
 
 	if (reader.getAlgorithmName() == "BFS")
 		finder = new BfsPathFinder();
@@ -56,6 +66,7 @@ int main(int argc, char **argv) {
 
 	Path path = finder->findPath(reader.getStartPosition(), reader.getGoal(), reader.getMap());
 
+	cout << path.toString() << endl;
 	fileWriter << path.toString() << endl;
 
 	return 0;

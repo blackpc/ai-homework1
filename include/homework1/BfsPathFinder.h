@@ -57,16 +57,7 @@ public:
 	 * @param map Map
 	 * @return Path
 	 */
-	virtual Path findPath(const Point& start, const Point& goal, Map::Ptr map) const;
-
-	/**
-	 * Recostructs path after the goal is found
-	 * @param map Map
-	 * @param start Starting point
-	 * @param goal Goal
-	 * @return Path
-	 */
-	Path recostructPath(const Map::Ptr& map, const Point& start, const Point& goal) const;
+	virtual Path findPath(const Point& start, const Point& goal, const Map::Ptr map) const;
 
 };
 

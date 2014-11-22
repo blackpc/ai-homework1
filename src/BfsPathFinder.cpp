@@ -33,13 +33,18 @@ BfsPathFinder::BfsPathFinder() {
 }
 
 Path BfsPathFinder::findPath(const Point& start, const Point& goal,
-		Map::Ptr map) const
+		const Map::Ptr map) const
 {
+	/**
+	 * Clone map to prevent changes on original map
+	 */
+	Map localMap = *map;
+
 	list<Point> openList;
 	set<Point> openListHash;
 
 	Point currentPoint = start;
-	map->at(currentPoint).setCameFrom(Move::L);
+	localMap.at(currentPoint).setCameFrom(Move::L);
 
 	openList.push_back(currentPoint);
 	openListHash.insert(currentPoint);
@@ -55,21 +60,21 @@ Path BfsPathFinder::findPath(const Point& start, const Point& goal,
 		 */
 		if (currentPoint == goal)
 		{
-			return recostructPath(map, start, goal);
+			return localMap.reconstructPath(start, goal);
 		}
 
-		vector<Move> moves = map->getAvailableMoves(currentPoint);
+		vector<Move> moves = localMap.getAvailableMoves(currentPoint);
 
 		foreach(const Move& move, moves) {
 			Map::CellType nextCell;
 			Point nextPoint;
 
-			if (map->applyMove(currentPoint, move, nextCell, nextPoint)) {
+			if (localMap.applyMove(currentPoint, move, nextCell, nextPoint)) {
 
-				if (openListHash.count(nextPoint) == 0 && map->at(nextPoint).getCameFrom().isNull()) {
+				if (openListHash.count(nextPoint) == 0 && localMap.at(nextPoint).getCameFrom().isNull()) {
 					openList.push_back(nextPoint);
 					openListHash.insert(nextPoint);
-					map->at(nextPoint).setCameFrom(move.reverse());
+					localMap.at(nextPoint).setCameFrom(move.reverse());
 				}
 			}
 
@@ -81,27 +86,4 @@ Path BfsPathFinder::findPath(const Point& start, const Point& goal,
 	 * Path not found
 	 */
 	return Path();
-}
-
-Path BfsPathFinder::recostructPath(const Map::Ptr& map,
-		const Point& start, const Point& goal) const
-{
-	Path path;
-	Point currentPoint = goal;
-
-	while (true) {
-
-		if (currentPoint == start)
-			break;
-
-		const Map::CellType& currentCell = map->at(currentPoint);
-		path.addMove(Move(currentCell.getCameFrom().reverse(), currentCell.getCost()));
-
-		Point parentPoint;
-		map->applyMove(currentPoint, currentCell.getCameFrom(), parentPoint);
-
-		currentPoint = parentPoint;
-	}
-
-	return path.reverse();
 }

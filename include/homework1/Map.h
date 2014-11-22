@@ -34,13 +34,12 @@
 #include <sstream>
 #include <set>
 
-#include <boost/noncopyable.hpp>
 #include <boost/foreach.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <homework1/Point.h>
 #include <homework1/Cell.h>
-#include <homework1/Move.h>
+#include <homework1/Path.h>
 
 #define foreach BOOST_FOREACH
 
@@ -49,7 +48,7 @@ using namespace std;
 /*
  * Map representation
  */
-class Map : public boost::noncopyable {
+class Map {
 
 public:
 
@@ -142,6 +141,14 @@ public:
 	 * @return
 	 */
 	string toString() const;
+
+	/**
+	 * Reconstructs the path after the goal is found
+	 * @param start Starting point
+	 * @param goal Goal
+	 * @return Path
+	 */
+	Path reconstructPath(const Point& start, const Point& goal) const;
 
 private:
 

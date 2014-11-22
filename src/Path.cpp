@@ -39,6 +39,9 @@ void Path::addMove(const Move& move) {
 
 string Path::toString() const {
 
+	if (moves_.size() == 0)
+		return "no path";
+
 	stringstream output;
 	int totalCost = 0;
 
@@ -60,7 +63,7 @@ Path Path::reverse() const {
 	Path reversedPath;
 
 	for (int i = 0; i < moves_.size(); ++i)
-		reversedPath.addMove(moves_[moves_.size() - i]);
+		reversedPath.addMove(moves_[moves_.size() - i - 1]);
 
 	return reversedPath;
 }
