@@ -130,7 +130,7 @@ public:
 
 	/**
 	 * Returns all available moves with costs from specified point
-	 * @note The moves are not sorted
+	 * @note The moves are sorted by the ordered described in the homework
 	 * @param currentPoint
 	 * @return
 	 */

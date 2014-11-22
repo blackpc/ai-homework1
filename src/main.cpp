@@ -52,23 +52,30 @@ void test() {
 
 int main(int argc, char **argv) {
 
-	FileReader reader("/home/blackpc/Downloads/HW1/input2.txt");
-	std::ofstream fileWriter("/home/blackpc/Downloads/HW1/out.txt");
+	FileReader* reader;
+	try {
+		reader = new FileReader("input.txt");
+	} catch (...) {
+		cerr << "Failed to open intput.txt file" << endl;
+	}
+
+	std::ofstream fileWriter("output.txt");
 
 
 	IPathFinder* finder = NULL;
 
-	if (reader.getAlgorithmName() == "BFS")
+	if (reader->getAlgorithmName() == "BFS")
 		finder = new BfsPathFinder();
 
-	if (reader.getAlgorithmName() == "UCS")
+	if (reader->getAlgorithmName() == "UCS")
 		finder = new UcsPathFinder();
 
-	Path path = finder->findPath(reader.getStartPosition(), reader.getGoal(), reader.getMap());
+	Path path = finder->findPath(reader->getStartPosition(), reader->getGoal(), reader->getMap());
 
 	cout << path.toString() << endl;
 	fileWriter << path.toString() << endl;
 
+	delete reader;
 	return 0;
 }
 

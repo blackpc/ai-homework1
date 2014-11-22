@@ -40,7 +40,13 @@ Path BfsPathFinder::findPath(const Point& start, const Point& goal,
 	 */
 	Map localMap = *map;
 
+	/**
+	 * Unsorted queue of discovered points
+	 */
 	list<Point> openList;
+	/**
+	 * Open list hash
+	 */
 	set<Point> openListHash;
 
 	Point currentPoint = start;
@@ -50,8 +56,14 @@ Path BfsPathFinder::findPath(const Point& start, const Point& goal,
 	openListHash.insert(currentPoint);
 
 	while(openList.size() > 0) {
+		/**
+		 * Fetch first discovered point from open list
+		 */
 		currentPoint = openList.front();
 
+		/**
+		 * Remove current point from lists
+		 */
 		openList.pop_front();
 		openListHash.erase(currentPoint);
 
@@ -63,6 +75,11 @@ Path BfsPathFinder::findPath(const Point& start, const Point& goal,
 			return localMap.reconstructPath(start, goal);
 		}
 
+		/**
+		 * Iterate over all available moves from current point
+		 * note: the moves are sorted by the ordered described in the homework
+		 *
+		 */
 		vector<Move> moves = localMap.getAvailableMoves(currentPoint);
 
 		foreach(const Move& move, moves) {
@@ -71,6 +88,9 @@ Path BfsPathFinder::findPath(const Point& start, const Point& goal,
 
 			if (localMap.applyMove(currentPoint, move, nextCell, nextPoint)) {
 
+				/**
+				 * If nextPoint not in open list and has no parent, then add it to open list
+				 */
 				if (openListHash.count(nextPoint) == 0 && localMap.at(nextPoint).getCameFrom().isNull()) {
 					openList.push_back(nextPoint);
 					openListHash.insert(nextPoint);

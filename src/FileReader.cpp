@@ -34,6 +34,9 @@ FileReader::FileReader(const string& filename)
 	ifstream fileStream(filename.c_str());
 	string line;
 
+	if (!fileStream)
+		throw new string("Couldn't open intput file.");
+
 	fileStream >> algorithmName_;
 	fileStream >> mapSize_;
 
