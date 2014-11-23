@@ -142,14 +142,6 @@ public:
 	 */
 	string toString() const;
 
-	/**
-	 * Reconstructs the path after the goal is found
-	 * @param start Starting point
-	 * @param goal Goal
-	 * @return Path
-	 */
-	Path reconstructPath(const Point& start, const Point& goal) const;
-
 private:
 
 	/**

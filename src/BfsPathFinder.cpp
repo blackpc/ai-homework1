@@ -50,23 +50,24 @@ Path BfsPathFinder::findPath(const Point& start, const Point& goal,
 	/**
 	 * Unsorted queue of discovered points
 	 */
-	list<Point> openList;
+	list<pair<Point, Path> > openList;
 	/**
 	 * Open list hash
 	 */
 	set<Point> openListHash;
 
 	Point currentPoint = start;
-	localMap.at(currentPoint).setCameFrom(Move::L);
+	Path currentPath;
 
-	openList.push_back(currentPoint);
+	openList.push_back(make_pair(currentPoint, currentPath));
 	openListHash.insert(currentPoint);
 
 	while(openList.size() > 0) {
 		/**
 		 * Fetch first discovered point from open list
 		 */
-		currentPoint = openList.front();
+		currentPoint = openList.front().first;
+		currentPath = openList.front().second;
 
 		/**
 		 * Remove current point from lists
@@ -78,9 +79,7 @@ Path BfsPathFinder::findPath(const Point& start, const Point& goal,
 		 * Goal found
 		 */
 		if (currentPoint == goal)
-		{
-			return localMap.reconstructPath(start, goal);
-		}
+			return currentPath;
 
 		/**
 		 * Iterate over all available moves from current point
@@ -96,15 +95,19 @@ Path BfsPathFinder::findPath(const Point& start, const Point& goal,
 			if (localMap.applyMove(currentPoint, move, nextCell, nextPoint)) {
 
 				/**
-				 * If nextPoint not in open list and has no parent, then add it to open list
+				 * If nextPoint not in open list, add it to open list
 				 */
-				if (openListHash.count(nextPoint) == 0 && localMap.at(nextPoint).getCameFrom().isNull()) {
-					openList.push_back(nextPoint);
+				if (openListHash.count(nextPoint) == 0) {
+					Path pathToNext = currentPath;
+					pathToNext.addMove(move);
+
+					/**
+					 * Add next point with current path + the move
+					 */
+					openList.push_back(make_pair(nextPoint, pathToNext));
 					openListHash.insert(nextPoint);
-					localMap.at(nextPoint).setCameFrom(move.reverse());
 				}
 			}
-
 
 		}
 	}

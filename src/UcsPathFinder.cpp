@@ -48,25 +48,26 @@ Path UcsPathFinder::findPath(const Point& start, const Point& goal,
 	Map localMap = *map;
 
 	/**
-	 * Sorted list of Points by cost
+	 * Sorted map of Points by cost and the path
 	 */
-	multiset<WeightedPoint> openList;
+	multimap<WeightedPoint, Path> openList;
 	/**
 	 * Open list hash
 	 */
 	set<Point> openListHash;
 
 	Point currentPoint = start;
-	localMap.at(currentPoint).setCameFrom(Move::L);
+	Path currentPath;
 
-	openList.insert(WeightedPoint(currentPoint, 0));
+	openList.insert(make_pair(WeightedPoint(currentPoint, 0), currentPath));
 	openListHash.insert(currentPoint);
 
 	while(openList.size() > 0) {
 		/**
 		 * Fetch point with the lowest cost
 		 */
-		currentPoint = *openList.begin();
+		currentPoint = openList.begin()->first;
+		currentPath = openList.begin()->second;
 
 		/**
 		 * Remove current point from lists
@@ -78,7 +79,7 @@ Path UcsPathFinder::findPath(const Point& start, const Point& goal,
 		 * Goal found
 		 */
 		if (currentPoint == goal)
-			return localMap.reconstructPath(start, goal);
+			return currentPath;
 
 
 		/**
@@ -93,12 +94,14 @@ Path UcsPathFinder::findPath(const Point& start, const Point& goal,
 			if (localMap.applyMove(currentPoint, move, nextCell, nextPoint)) {
 
 				/**
-				 * If nextPoint not in open list and has no parent, then add it to open list
+				 * If nextPoint not in open list, add it to open list
 				 */
-				if (openListHash.count(nextPoint) == 0 && localMap.at(nextPoint).getCameFrom().isNull()) {
-					openList.insert(WeightedPoint(nextPoint, move.getCost()));
+				if (openListHash.count(nextPoint) == 0) {
+					Path pathToNext = currentPath;
+					pathToNext.addMove(move);
+
+					openList.insert(make_pair(WeightedPoint(nextPoint, move.getCost()), pathToNext));
 					openListHash.insert(nextPoint);
-					localMap.at(nextPoint).setCameFrom(move.reverse());
 				}
 			}
 

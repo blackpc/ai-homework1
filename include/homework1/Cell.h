@@ -70,18 +70,6 @@ public:
 	int getCost() const;
 
 	/**
-	 * Sets came from field
-	 * @param move
-	 */
-	void setCameFrom(const Move& move);
-
-	/**
-	 * Gets the came from field
-	 * @return
-	 */
-	Move getCameFrom() const;
-
-	/**
 	 * True if cell is traversable
 	 * @return
 	 */
@@ -90,7 +78,6 @@ public:
 private:
 
 	uint8_t value_;
-	Move cameFrom_;
 
 };
 

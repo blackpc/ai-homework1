@@ -103,8 +103,7 @@ string Map::toString() const {
 	stringstream output;
 
 	foreach(Map::CellType cell, map_) {
-//		output << cell.toString() << " ";
-		output << cell.toString() << cell.getCameFrom().toString() << " ";
+		output << cell.toString() << " ";
 
 		if (widthCounter % width_ == width_ - 1)
 			output << "\n";
@@ -190,17 +189,16 @@ vector<Move> Map::getAvailableMoves(const Point& currentPoint) const {
 	Point nextPoint;
 	CellType nextCell;
 
+	/**
+	 * Create blocked moves list
+	 */
 	foreach(const Move& move, Move::getAllMoves()) {
 		if (blockedMoves.count(move) == 0 && applyMove(currentPoint, move, nextCell, nextPoint)) {
 
 			/**
-			 * If next cell is traversable (=not water), add it to available moves,
-			 * else if R,D,L or U is water, then diagonal also blocked.
+			 * If next cell is not traversable (=water) -> diagonal are blocked.
 			 */
-			if (nextCell.isTraversable())
-				moves.push_back(Move(move, nextCell.getCost()));
-			else {
-
+			if (!nextCell.isTraversable()) {
 				if (move == Move::R) {
 					blockedMoves.insert(Move::RU);
 					blockedMoves.insert(Move::RD);
@@ -220,37 +218,21 @@ vector<Move> Map::getAvailableMoves(const Point& currentPoint) const {
 					blockedMoves.insert(Move::LU);
 					blockedMoves.insert(Move::RU);
 				}
-
 			}
 		}
 	}
 
-	return moves;
-}
-
-/**
- * Reconstructs the path after the goal is found
- * @param start Starting point
- * @param goal Goal
- * @return Path
- */
-Path Map::reconstructPath(const Point& start, const Point& goal) const {
-	Path path;
-	Point currentPoint = goal;
-
-	while (true) {
-
-		if (currentPoint == start)
-			break;
-
-		const Map::CellType& currentCell = this->at(currentPoint);
-		path.addMove(Move(currentCell.getCameFrom().reverse(), currentCell.getCost()));
-
-		Point parentPoint;
-		this->applyMove(currentPoint, currentCell.getCameFrom(), parentPoint);
-
-		currentPoint = parentPoint;
+	/**
+	 * Add non-blockes moves to available moves
+	 */
+	foreach(const Move& move, Move::getAllMoves()) {
+		if (blockedMoves.count(move) == 0 &&
+				applyMove(currentPoint, move, nextCell, nextPoint))
+		{
+			if (nextCell.isTraversable())
+				moves.push_back(Move(move, nextCell.getCost()));
+		}
 	}
 
-	return path.reverse();
+	return moves;
 }

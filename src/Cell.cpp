@@ -103,19 +103,3 @@ bool Cell::isTraversable() const {
 
 	return true;
 }
-
-/**
- * Sets came from field
- * @param move
- */
-void Cell::setCameFrom(const Move& move) {
-	cameFrom_ = move;
-}
-
-/**
- * Gets the came from field
- * @return
- */
-Move Cell::getCameFrom() const {
-	return cameFrom_;
-}
