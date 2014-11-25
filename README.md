@@ -1,3 +1,7 @@
+Requirements
+============
+Linux with cmake and boost
+
 Compilation
 ===========
 ```
