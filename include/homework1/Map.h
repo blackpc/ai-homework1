@@ -34,14 +34,12 @@
 #include <sstream>
 #include <set>
 
-#include <boost/foreach.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <homework1/Point.h>
 #include <homework1/Cell.h>
 #include <homework1/Path.h>
 
-#define foreach BOOST_FOREACH
 
 using namespace std;
 

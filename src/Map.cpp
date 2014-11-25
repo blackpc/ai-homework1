@@ -102,14 +102,23 @@ string Map::toString() const {
 	int widthCounter = 0;
 	stringstream output;
 
-	foreach(Map::CellType cell, map_) {
-		output << cell.toString() << " ";
+	for (int i = 0; i < map_.size(); ++i) {
+		const Map::CellType& cell = map_[i];
 
 		if (widthCounter % width_ == width_ - 1)
 			output << "\n";
 
 		widthCounter++;
 	}
+
+//	foreach(Map::CellType cell, map_) {
+//		output << cell.toString() << " ";
+//
+//		if (widthCounter % width_ == width_ - 1)
+//			output << "\n";
+//
+//		widthCounter++;
+//	}
 
 	return output.str();
 }
@@ -192,7 +201,10 @@ vector<Move> Map::getAvailableMoves(const Point& currentPoint) const {
 	/**
 	 * Create blocked moves list
 	 */
-	foreach(const Move& move, Move::getAllMoves()) {
+	// foreach(const Move& move, Move::getAllMoves()) {
+	for (int i = 0; i < Move::getAllMoves().size(); ++i) {
+		Move& move = Move::getAllMoves()[i];
+
 		if (blockedMoves.count(move) == 0 && applyMove(currentPoint, move, nextCell, nextPoint)) {
 
 			/**
@@ -225,7 +237,9 @@ vector<Move> Map::getAvailableMoves(const Point& currentPoint) const {
 	/**
 	 * Add non-blockes moves to available moves
 	 */
-	foreach(const Move& move, Move::getAllMoves()) {
+	for (int i = 0; i < Move::getAllMoves().size(); ++i) {
+		Move& move = Move::getAllMoves()[i];
+
 		if (blockedMoves.count(move) == 0 &&
 				applyMove(currentPoint, move, nextCell, nextPoint))
 		{
