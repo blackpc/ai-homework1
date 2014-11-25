@@ -87,7 +87,11 @@ Path UcsPathFinder::findPath(const Point& start, const Point& goal,
 		 */
 		vector<Move> moves = localMap.getAvailableMoves(currentPoint);
 
-		foreach(const Move& move, moves) {
+		// foreach(const Move& move, moves) {
+		for (int i = 0; i < moves.size(); ++i) {
+			const Move& move = moves[i];
+
+
 			Map::CellType nextCell;
 			Point nextPoint;
 

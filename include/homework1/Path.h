@@ -33,13 +33,8 @@
 #include <vector>
 #include <sstream>
 
-#include <boost/foreach.hpp>
-
 #include <homework1/Move.h>
 #include <homework1/Point.h>
-
-
-#define foreach BOOST_FOREACH
 
 
 using namespace std;
